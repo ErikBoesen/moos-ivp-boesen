@@ -1,21 +1,29 @@
 /************************************************************/
-/*    NAME: Erik Boesen                                              */
+/*    NAME: Erik Boesen                                     */
 /*    ORGN: MIT                                             */
-/*    FILE: Odometry.cpp                                        */
+/*    FILE: Odometry.cpp                                    */
 /*    DATE:                                                 */
 /************************************************************/
 
 #include <iterator>
+#include <cmath>
 #include "MBUtils.h"
 #include "Odometry.h"
 
 using namespace std;
+
 
 //---------------------------------------------------------
 // Constructor
 
 Odometry::Odometry()
 {
+    bool   m_first_reading = false;
+    double m_current_x = 0;
+    double m_current_y = 0;
+    double m_previous_x = 0;
+    double m_previous_y = 0;
+    double m_total_distance = 0;
 }
 
 //---------------------------------------------------------
@@ -34,6 +42,14 @@ bool Odometry::OnNewMail(MOOSMSG_LIST &NewMail)
 
   for(p=NewMail.begin(); p!=NewMail.end(); p++) {
     CMOOSMsg &msg = *p;
+    string key = msg.GetKey();
+    if (key == "NAV_X" && msg.IsDouble()) {
+        m_previous_x = m_current_x;
+        m_current_x = msg.GetDouble();
+    } else if (key == "NAV_Y" && msg.IsDouble()) {
+        m_previous_y = m_current_y;
+        m_current_y = msg.GetDouble();
+    }
 
 #if 0 // Keep these around just for template
     string key   = msg.GetKey();
@@ -70,6 +86,8 @@ bool Odometry::OnConnectToServer()
 
 bool Odometry::Iterate()
 {
+  m_total_distance += sqrt(pow(m_current_x - m_previous_x, 2) + pow(m_current_y - m_previous_y, 2));
+  m_Comms.Notify("ODOMETRY_DIST", m_total_distance);
   return(true);
 }
 

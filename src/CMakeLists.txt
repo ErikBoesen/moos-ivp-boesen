@@ -19,7 +19,7 @@ ADD_SUBDIRECTORY(pXRelayTest)
 ADD_SUBDIRECTORY(pExampleApp)
 ADD_SUBDIRECTORY(pPrimeFactors)
 #ADD_SUBDIRECTORY(pFoobar)
-#ADD_SUBDIRECTORY(pOdometry)
+ADD_SUBDIRECTORY(pOdometry)
 
 ##############################################################################
 #                           END of CMakeLists.txt
