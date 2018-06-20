@@ -43,7 +43,7 @@ bool PrimeFactors::OnNewMail(MOOSMSG_LIST &NewMail) {
     if (key == "NUM_VALUE") {
         uint64_t in = strtoull(msg.GetString().c_str(), NULL, 0);
         cout << "Number recieved: " << in << endl;
-        PrimeProblem prob(in, m_received++);
+        PrimeProblem prob(in, m_received++, MOOSTime());
         m_queue.push_front(move(prob));
         cout << "The PrimeProblem object has " << prob.m_orig << endl;
     }
@@ -85,7 +85,7 @@ bool PrimeFactors::Iterate() {
         cout << "Found one!" << m_queue.front().m_orig << endl;
         if (m_queue.front().factorize()) {
             cout << "Found solution." << endl;
-            m_Comms.Notify("PRIME_RESULT", m_queue.front().make_response(m_processed++));
+            m_Comms.Notify("PRIME_RESULT", m_queue.front().make_response(m_processed++, MOOSTime()));
             m_queue.pop_front();
         } else {
             cout << "Didn't finish this time, trying again later" << endl;

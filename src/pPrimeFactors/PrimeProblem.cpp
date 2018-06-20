@@ -5,16 +5,18 @@
 #include <sstream>
 #include <string>
 #include <iostream> // TODO: Remove
+#include "MBUtils.h"
 #include "PrimeProblem.h"
 
 #define MAX_ITER 10000
 
 using namespace std;
 
-PrimeProblem::PrimeProblem(uint64_t number, int received) {
+PrimeProblem::PrimeProblem(uint64_t number, int received, double start_time) {
     m_orig = number;
     m_number = number;
     m_received = received;
+    m_start_time = start_time;
     m_factor = 2;
 }
 
@@ -37,11 +39,14 @@ bool PrimeProblem::factorize() {
     return true;
 }
 
-string PrimeProblem::make_response(int calculated) {
+string PrimeProblem::make_response(int calculated, int end_time) {
     // Response format:
     // "orig=90090,received=34,calculated=33,solve_time=2.03,primes=2:3:3:5:7:11:13,username=jane"
+    // FIXME: WHY IS THIS SOMETIMES NEGATIVE WHAT
+    double elapsed_time = end_time - m_start_time;
+    cout << elapsed_time<<endl;
     stringstream ss;
-    ss << "orig=" << m_orig << ",received=" << m_received << ",calculated=" << calculated << ",solve_time=" << m_solve_time << ",primes=";
+    ss << "orig=" << m_orig << ",received=" << m_received << ",calculated=" << calculated << ",solve_time=" << elapsed_time << ",primes=";
     ss << m_factors[0];
     for (int i = 1; i < m_factors.size(); i++) ss << ':' << m_factors[i];
     ss << ",username=erik";
