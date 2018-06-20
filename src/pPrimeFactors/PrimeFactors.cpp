@@ -11,14 +11,16 @@
 #include <sstream>
 #include "MBUtils.h"
 #include "PrimeFactors.h"
+#include "PrimeProblem.h"
 
 using namespace std;
 
 //---------------------------------------------------------
 // Constructor
 
-PrimeFactors::PrimeFactors()
-{
+PrimeFactors::PrimeFactors() {
+    int m_processed = 0;
+    int m_recieved = 0;
 }
 
 //---------------------------------------------------------
@@ -31,8 +33,7 @@ PrimeFactors::~PrimeFactors()
 //---------------------------------------------------------
 // Procedure: OnNewMail
 
-bool PrimeFactors::OnNewMail(MOOSMSG_LIST &NewMail)
-{
+bool PrimeFactors::OnNewMail(MOOSMSG_LIST &NewMail) {
   MOOSMSG_LIST::iterator p;
 
   for(p=NewMail.begin(); p!=NewMail.end(); p++) {
@@ -40,9 +41,9 @@ bool PrimeFactors::OnNewMail(MOOSMSG_LIST &NewMail)
 
     string key = msg.GetKey();
     if (key == "NUM_VALUE") {
-        uint64_t in = strtoul(msg.GetString().c_str(), NULL, 0);
-
-
+        uint64_t in = strtoull(msg.GetString().c_str(), NULL, 0);
+        PrimeProblem prob(in, m_recieved++);
+        m_queue.push_front(prob);
     }
 
 #if 0 // Keep these around just for template
@@ -63,8 +64,7 @@ bool PrimeFactors::OnNewMail(MOOSMSG_LIST &NewMail)
 //---------------------------------------------------------
 // Procedure: OnConnectToServer
 
-bool PrimeFactors::OnConnectToServer()
-{
+bool PrimeFactors::OnConnectToServer() {
    // register for variables here
    // possibly look at the mission file?
    // m_MissionReader.GetConfigurationParam("Name", <string>);
@@ -78,17 +78,25 @@ bool PrimeFactors::OnConnectToServer()
 // Procedure: Iterate()
 //            happens AppTick times per second
 
-bool PrimeFactors::Iterate()
-{
-  return(true);
+bool PrimeFactors::Iterate() {
+    if (!m_queue.empty()) {
+        if (m_queue.front().factorize()) {
+            m_Comms.Notify("PRIME_RESULT", m_queue.front().make_response(m_processed++));
+            m_queue.pop_front();
+        } else {
+            cout << "Didn't finish this time, trying again later" << endl;
+            // Didn't finish in desired number of iterations,
+            // will continue next iteration or at a later time.
+        }
+    }
+    return(true);
 }
 
 //---------------------------------------------------------
 // Procedure: OnStartUp()
 //            happens before connection is open
 
-bool PrimeFactors::OnStartUp()
-{
+bool PrimeFactors::OnStartUp() {
   list<string> sParams;
   m_MissionReader.EnableVerbatimQuoting(false);
   if(m_MissionReader.GetConfiguration(GetAppName(), sParams)) {
@@ -114,8 +122,6 @@ bool PrimeFactors::OnStartUp()
 //---------------------------------------------------------
 // Procedure: RegisterVariables
 
-void PrimeFactors::RegisterVariables()
-{
+void PrimeFactors::RegisterVariables() {
     Register("NUM_VALUE", 0);
-  // Register("FOOBAR", 0);
 }

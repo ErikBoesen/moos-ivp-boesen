@@ -5,6 +5,7 @@
 
 SET(SRC
   PrimeFactors.cpp
+  PrimeProblem.cpp
   PrimeFactors_Info.cpp
   main.cpp
 )
@@ -16,4 +17,3 @@ TARGET_LINK_LIBRARIES(pPrimeFactors
    mbutil
    m
    pthread)
-
