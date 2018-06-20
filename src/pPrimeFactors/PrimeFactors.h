@@ -30,7 +30,7 @@ class PrimeFactors : public CMOOSApp
 
     private: // Configuration variables
         int m_processed;
-        int m_recieved;
+        int m_received;
         list<PrimeProblem> m_queue;
 
     private: // State variables

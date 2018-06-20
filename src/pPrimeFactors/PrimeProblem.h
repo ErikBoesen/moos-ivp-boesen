@@ -9,18 +9,19 @@ using namespace std;
 // TODO: const correctness
 class PrimeProblem {
 public:
-    PrimeProblem(int number, int recieved);
+    PrimeProblem(uint64_t number, int received);
     bool factorize();
     string make_response(int calculated);
+
+    uint64_t m_orig;
 
 private:
     vector<uint64_t> m_factors;
     // TODO: Getters and setters?
     int m_solve_time;
-    int m_factor;
-    int m_recieved;
-    int m_orig;
-    int m_number;
+    uint64_t m_factor;
+    int m_received;
+    uint64_t m_number;
 };
 
 #endif

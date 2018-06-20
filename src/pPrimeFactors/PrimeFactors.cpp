@@ -20,7 +20,7 @@ using namespace std;
 
 PrimeFactors::PrimeFactors() {
     int m_processed = 0;
-    int m_recieved = 0;
+    int m_received = 0;
 }
 
 //---------------------------------------------------------
@@ -42,8 +42,10 @@ bool PrimeFactors::OnNewMail(MOOSMSG_LIST &NewMail) {
     string key = msg.GetKey();
     if (key == "NUM_VALUE") {
         uint64_t in = strtoull(msg.GetString().c_str(), NULL, 0);
-        PrimeProblem prob(in, m_recieved++);
-        m_queue.push_front(prob);
+        cout << "Number recieved: " << in << endl;
+        PrimeProblem prob(in, m_received++);
+        m_queue.push_front(move(prob));
+        cout << "The PrimeProblem object has " << prob.m_orig << endl;
     }
 
 #if 0 // Keep these around just for template
@@ -80,7 +82,9 @@ bool PrimeFactors::OnConnectToServer() {
 
 bool PrimeFactors::Iterate() {
     if (!m_queue.empty()) {
+        cout << "Found one!" << m_queue.front().m_orig << endl;
         if (m_queue.front().factorize()) {
+            cout << "Found solution." << endl;
             m_Comms.Notify("PRIME_RESULT", m_queue.front().make_response(m_processed++));
             m_queue.pop_front();
         } else {
