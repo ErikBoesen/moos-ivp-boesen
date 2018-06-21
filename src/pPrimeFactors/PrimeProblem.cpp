@@ -42,7 +42,7 @@ bool PrimeProblem::factorize() {
 string PrimeProblem::make_response(int calculated, int end_time) {
     // Response format:
     // "orig=90090,received=34,calculated=33,solve_time=2.03,primes=2:3:3:5:7:11:13,username=jane"
-    // FIXME: WHY IS THIS SOMETIMES NEGATIVE WHAT
+    // FIXME: WHY IS THIS SOMETIMES NEGATIVE
     double elapsed_time = end_time - m_start_time;
     cout << elapsed_time<<endl;
     stringstream ss;

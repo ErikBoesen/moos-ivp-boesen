@@ -9,11 +9,11 @@ Community    = alpha
 MOOSTimeWarp = 1
 
 // Forest Lake
-LatOrigin  = 43.825300 
-LongOrigin = -70.330400 
+LatOrigin  = 43.825300
+LongOrigin = -70.330400
 
 // MIT Sailing Pavilion (use this one)
-// LatOrigin  = 42.358456 
+// LatOrigin  = 42.358456
 // LongOrigin = -71.087589
 
 //------------------------------------------
@@ -173,7 +173,7 @@ ProcessConfig = pMarineViewer
   nodes_font_size      = medium
   procs_font_size      = medium
   appcast_font_size    = small
-  
+
   // datum_viewable = true
   // datum_size     = 18
   // gui_size = small
@@ -202,6 +202,10 @@ ProcessConfig = pMarineViewer
   action+ = MENU_KEY=deploy # MOOS_MANUAL_OVERRIDE=false
   action  = RETURN=true
   action  = UPDATES_RETURN=speed=1.4
+
+  left_context[view_both]  = VIEW_POINT = x=$(XPOS),y=$(YPOS),label=return_point
+  left_context[view_both] = RETURN_UPDATE = points = $(XPOS),$(YPOS)
+  left_context[view_both] = RETURN=true
 }
 
 //------------------------------------------
@@ -216,4 +220,3 @@ ProcessConfig = pNodeReporter
   platform_color  = yellow
   platform_length = 4
 }
-
