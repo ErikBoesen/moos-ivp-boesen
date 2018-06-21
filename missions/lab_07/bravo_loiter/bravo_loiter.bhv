@@ -1,0 +1,17 @@
+//--------    FILE: bravo_loiter.bhv   -------------
+
+initialize   DEPLOY = true
+initialize   RETURN = false
+
+
+Behavior = BHV_Loiter
+{
+	condition = RETURN = false
+	condition = DEPLOY = true
+	endflag   = RETURN = true
+	duration = 150
+	speed = 3
+
+	clockwise = false
+	polygon = format=radial,x=100,y=-75,radius=30,pts=8
+}
