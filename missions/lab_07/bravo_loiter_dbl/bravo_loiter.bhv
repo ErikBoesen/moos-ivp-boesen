@@ -6,12 +6,32 @@ initialize   RETURN = false
 
 Behavior = BHV_Loiter
 {
+	name = loiter_a
 	condition = RETURN = false
 	condition = DEPLOY = true
-	endflag   = RETURN = true
+	condition = LOITER_REGION = east
+	endflag   = LOITER_REGION = west
+	perpetual = true
 	duration = 150
+	duration_idle_decay = false
 	speed = 3
 
 	clockwise = false
 	polygon = format=radial,x=100,y=-75,radius=30,pts=8
+}
+
+Behavior = BHV_Loiter
+{
+	name = loiter_b
+	condition = RETURN = false
+	condition = DEPLOY = true
+	condition = LOITER_REGION = west
+	endflag   = LOITER_REGION = east
+	perpetual = true
+	duration = 150
+	duration_idle_decay = false
+	speed = 2.5
+
+	clockwise = false
+	polygon = format=radial,x=160,y=-50,radius=20,pts=8
 }
