@@ -1,0 +1,63 @@
+//--------    FILE: bravo_loiter.bhv   -------------
+
+initialize   DEPLOY = true
+initialize   RETURN = false
+
+
+Behavior = BHV_Loiter
+{
+	name = loiter_a
+	condition = RETURN = false
+	condition = DEPLOY = true
+	condition = LOITER_REGION = east
+	endflag   = LOITER_REGION = west
+	perpetual = true
+	duration = 150
+	duration_idle_decay = false
+	speed = 3
+
+	clockwise = false
+	polygon = format=radial,x=100,y=-75,radius=30,pts=8
+}
+
+Behavior = BHV_Loiter
+{
+	name = loiter_b
+	condition = RETURN = false
+	condition = DEPLOY = true
+	condition = LOITER_REGION = west
+	endflag   = LOITER_REGION = east
+	perpetual = true
+	duration = 150
+	duration_idle_decay = false
+	speed = 2.5
+
+	clockwise = false
+	polygon = format=radial,x=160,y=-50,radius=20,pts=8
+}
+
+Behavior = BHV_ConstantDepth
+{
+	name = depth_east
+	condition = RETURN = false
+	condition = DEPLOY = true
+	condition = LOITER_REGION = east
+
+	depth = 10
+	duration = 150
+	duration_reset = LOITER_POS=east
+	perpetual=true
+}
+
+Behavior = BHV_ConstantDepth
+{
+	name = depth_west
+	condition = RETURN = false
+	condition = DEPLOY = true
+	condition = LOITER_REGION = west
+
+	depth = 30
+	duration = 150
+	duration_reset = LOITER_POS=west
+	perpetual=true
+}
