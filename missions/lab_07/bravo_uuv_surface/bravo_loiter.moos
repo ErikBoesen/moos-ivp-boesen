@@ -214,7 +214,7 @@ ProcessConfig = pMarineViewer
   scope  = MVIEWER_LCLICK
   scope  = MVIEWER_RCLICK
 
-  button_one = DEPLOY # DEPLOY=true # LOITER_REGION = east
+  button_one = DEPLOY # DEPLOY=true # LOITER_REGION = east # SURFACING = false
   button_one = MOOS_MANUAL_OVERRIDE=false # RETURN=false
   button_two = RETURN # RETURN=true
 
