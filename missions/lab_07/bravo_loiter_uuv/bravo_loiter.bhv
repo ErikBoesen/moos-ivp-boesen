@@ -35,3 +35,29 @@ Behavior = BHV_Loiter
 	clockwise = false
 	polygon = format=radial,x=160,y=-50,radius=20,pts=8
 }
+
+Behavior = BHV_ConstantDepth
+{
+	name = depth_east
+	condition = RETURN = false
+	condition = DEPLOY = true
+	condition = LOITER_REGION = east
+
+	depth = 10
+	duration = 150
+	duration_reset = LOITER_POS=east
+	perpetual=true
+}
+
+Behavior = BHV_ConstantDepth
+{
+	name = depth_west
+	condition = RETURN = false
+	condition = DEPLOY = true
+	condition = LOITER_REGION = west
+
+	depth = 30
+	duration = 150
+	duration_reset = LOITER_POS=west
+	perpetual=true
+}
