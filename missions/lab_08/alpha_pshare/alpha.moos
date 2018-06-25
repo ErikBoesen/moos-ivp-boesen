@@ -18,12 +18,18 @@ ProcessConfig = ANTLER
   MSBetweenLaunches = 200
 
   Run = MOOSDB          @ NewConsole = false
+  Run = pShare          @ NewConsole = false
   Run = pLogger         @ NewConsole = false
   Run = uSimMarine	    @ NewConsole = false
   Run = pMarinePID      @ NewConsole = false
   Run = pHelmIvP        @ NewConsole = false
   Run = uProcessWatch	  @ NewConsole = false
   Run = pNodeReporter	  @ NewConsole = false
+}
+
+ProcessConfig = pShare
+{
+  output = src_name=NODE_REPORT_LOCAL, dest_name=NODE_REPORT, route=localhost:9200
 }
 
 //------------------------------------------

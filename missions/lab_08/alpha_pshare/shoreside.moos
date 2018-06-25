@@ -18,7 +18,13 @@ ProcessConfig = ANTLER
   MSBetweenLaunches = 200
 
   Run = MOOSDB          @ NewConsole = false
+  Run = pShare          @ NewConsole = false
   Run = pMarineViewer	  @ NewConsole = false
+}
+
+ProcessConfig = pShare
+{
+  input = route=localhost:9200
 }
 
 //------------------------------------------
