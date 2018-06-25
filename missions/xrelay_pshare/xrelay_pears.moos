@@ -13,6 +13,12 @@ ProcessConfig = ANTLER
   Run = pXRelay      @ NewConsole = false ~ pXRelay_APPLES
   Run = pXRelay      @ NewConsole = false ~ pXRelay_PEARS
   Run = uXMS         @ NewConsole = false
+  Run = pShare       @ NewConsole = false
+}
+
+ProcessConfig = pShare 
+{
+  input = route=localhost:9201
 }
 
 

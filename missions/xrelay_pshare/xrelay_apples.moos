@@ -1,7 +1,7 @@
 // MOOS file
 
 ServerHost = localhost
-ServerPort = 9000
+ServerPort = 9001
 
 //------------------------------------------
 // Antler configuration  block
@@ -12,9 +12,17 @@ ProcessConfig = ANTLER
   Run = MOOSDB       @ NewConsole = false
   Run = pXRelay      @ NewConsole = false ~ pXRelay_APPLES
   Run = pXRelay      @ NewConsole = false ~ pXRelay_PEARS
-  Run = uXMS         @ NewConsole = fals
+  Run = uXMS         @ NewConsole = false
+  Run = pShare       @ NewConsole = false
 }
 
+
+ProcessConfig = pShare 
+{
+  input = route=localhost:9200
+
+  output = src_name=APPLES, route=localhost:9201
+}
 
 //------------------------------------------
 // First pXRelay configuration block
