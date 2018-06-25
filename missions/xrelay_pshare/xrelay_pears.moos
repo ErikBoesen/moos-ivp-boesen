@@ -10,9 +10,9 @@ ProcessConfig = ANTLER
   MSBetweenLaunches = 200
 
   Run = MOOSDB       @ NewConsole = false
-  Run = pXRelay      @ NewConsole = true ~ pXRelay_APPLES
-  Run = pXRelay      @ NewConsole = true ~ pXRelay_PEARS
-  Run = uXMS         @ NewConsole = true
+  Run = pXRelay      @ NewConsole = false ~ pXRelay_APPLES
+  Run = pXRelay      @ NewConsole = false ~ pXRelay_PEARS
+  Run = uXMS         @ NewConsole = false
 }
 
 
