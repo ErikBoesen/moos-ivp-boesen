@@ -19,7 +19,7 @@ ProcessConfig = ANTLER
 
   Run = MOOSDB          @ NewConsole = false
   Run = pShare          @ NewConsole = false
-  Rn = uSimMarine	    @ NewConsole = false
+  Run = uSimMarine	    @ NewConsole = false
   Run = pMarinePID      @ NewConsole = false
   Run = pHelmIvP        @ NewConsole = false
   Run = uProcessWatch	  @ NewConsole = false
@@ -28,7 +28,7 @@ ProcessConfig = ANTLER
 
 ProcessConfig = pShare
 {
-  input = route = localhost:9002
+  input = route=localhost:9202
 
   output = src_name=NODE_REPORT_LOCAL, dest_name=NODE_REPORT, route=localhost:9200
   output = src_name=VIEW_SEGLIST, route=localhost:9200
@@ -101,7 +101,7 @@ ProcessConfig = pHelmIvP
 
   bhv_dir_not_found_ok = true
 
-  behaviors  = alpha.bhv
+  behaviors  = bravo.bhv
   domain     = course:0:359:360
   domain     = speed:0:4:41
 }
