@@ -1,11 +1,11 @@
 ServerHost   = localhost
 ServerPort   = 9000
-Community    = alpha
+Community    = shoreside
 MOOSTimeWarp = 1
 
 // Forest Lake
-LatOrigin  = 43.825300 
-LongOrigin = -70.330400 
+LatOrigin  = 42.358456 
+LongOrigin = -71.087589
 
 // MIT Sailing Pavilion (use this one)
 // LatOrigin  = 42.358456 
@@ -25,6 +25,14 @@ ProcessConfig = ANTLER
 ProcessConfig = pShare
 {
   input = route=localhost:9200
+
+  output = src_name=DEPLOY, route=localhost:9021
+  output = src_name=RETURN, route=localhost:9021
+  output = src_name=MOOS_MANUAL_OVERRIDE, route=localhost:9021
+
+  output = src_name=DEPLOY, route=localhost:9022
+  output = src_name=RETURN, route=localhost:9022
+  output = src_name=MOOS_MANUAL_OVERRIDE, route=localhost:9022
 }
 
 //------------------------------------------
@@ -35,8 +43,8 @@ ProcessConfig = pMarineViewer
   AppTick    = 4
   CommsTick  = 4
 
-  tiff_file            = forrest19.tif
-	//tiff_file            = MIT_SP.tif
+  //tiff_file            = forrest19.tif
+	tiff_file            = MIT_SP.tif
 
   set_pan_x            = -90
   set_pan_y            = -280

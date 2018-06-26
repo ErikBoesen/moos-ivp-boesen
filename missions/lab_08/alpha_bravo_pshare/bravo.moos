@@ -1,15 +1,15 @@
-SrverHost   = localhost
-ServerPort   = 9000
-Community    = alpha
+ServerHost   = localhost
+ServerPort   = 9002
+Community    = bravo
 MOOSTimeWarp = 1
 
 // Forest Lake
-LatOrigin  = 43.825300 
-LongOrigin = -70.330400 
+//LatOrigin  = 43.825300 
+//LongOrigin = -70.330400 
 
 // MIT Sailing Pavilion (use this one)
-// LatOrigin  = 42.358456 
-// LongOrigin = -71.087589
+LatOrigin  = 42.358456 
+LongOrigin = -71.087589
 
 //------------------------------------------
 // Antler configuration  block
@@ -19,8 +19,7 @@ ProcessConfig = ANTLER
 
   Run = MOOSDB          @ NewConsole = false
   Run = pShare          @ NewConsole = false
-  Run = pLogger         @ NewConsole = false
-  Run = uSimMarine	    @ NewConsole = false
+  Rn = uSimMarine	    @ NewConsole = false
   Run = pMarinePID      @ NewConsole = false
   Run = pHelmIvP        @ NewConsole = false
   Run = uProcessWatch	  @ NewConsole = false
@@ -29,7 +28,11 @@ ProcessConfig = ANTLER
 
 ProcessConfig = pShare
 {
+  input = route = localhost:9002
+
   output = src_name=NODE_REPORT_LOCAL, dest_name=NODE_REPORT, route=localhost:9200
+  output = src_name=VIEW_SEGLIST, route=localhost:9200
+  output = src_name=VIEW_POINT, route=localhost:9200
 }
 
 //------------------------------------------
