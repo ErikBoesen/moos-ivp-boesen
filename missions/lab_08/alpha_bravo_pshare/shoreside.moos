@@ -1,7 +1,6 @@
 ServerHost   = localhost
 ServerPort   = 9000
 Community    = shoreside
-MOOSTimeWarp = 1
 
 // Forest Lake
 LatOrigin  = 42.358456 
