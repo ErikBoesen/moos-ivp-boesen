@@ -4,6 +4,7 @@
 initialize   DEPLOY  = true
 initialize   RETURN  = false
 initialize   STATION_KEEP = false
+initialize   REFUEL_NEEDED = false
 initialize   LOITER  = true
 
 set MODE = ACTIVE {
@@ -23,7 +24,12 @@ set MODE = RETURNING {
 set MODE = LOITERING {
   MODE = ACTIVE
   LOITER = true
-} 
+}
+
+set MODE = REFUELING {
+  MODE = ACTIVE
+  REFUEL_NEEDED = true
+}
 
 
 //----------------------------------------------
@@ -76,4 +82,32 @@ Behavior = BHV_StationKeep
      transit_speed = 1.3
         swing_time = 7
       visual_hints = vertex_size=0, edge_color=gray50
+}
+
+Behavior = BHV_Refuel
+{
+  name    = go_refuel
+  pwt     = 100
+  condition = MODE==REFUELING
+  endflag = REFUEL_POINT_REACHED=true
+  runflag = LOITER=false
+
+  speed = 1.3
+  radius = 3.0
+  nm_radius = 15.0
+  points = $(START_POS)
+  lead = 8
+}
+
+Behavior = BHV_Timer
+{
+  name = refuel_timer
+  perpetual = true
+  pwt = 100
+  condition = MODE==REFUELING
+  endflag = REFUEL_POINT_REACHED = false
+  endflag = REFUEL_NEEDED = false
+  endflag = LOITER = true
+  duration = 60
+  duration_reset = REFUEL_POINT_REACHED = false
 }

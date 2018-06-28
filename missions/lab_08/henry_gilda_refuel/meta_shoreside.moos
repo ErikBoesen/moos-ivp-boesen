@@ -8,7 +8,7 @@ Community  = $(VNAME)
 #include plug_origin_warp.moos
   
 //--------------------------------------------------------
-Processconfig = ANTLER
+ProcessConfig = ANTLER
 {
   MSBetweenLaunches = 100
 
@@ -38,6 +38,7 @@ ProcessConfig = uFldShoreBroker
 
   BRIDGE   = src=RETURN_ALL, alias=RETURN
   BRIDGE   = src=RETURN_$V,  alias=RETURN
+  BRIDGE   = src=REFUEL_NEEDED_ALL, alias=REFUEL_NEEDED
 }
 
 //--------------------------------------------------------
@@ -71,4 +72,5 @@ ProcessConfig = pMarineViewer
   BUTTON_TWO   = STATION_KEEP_ALL=false
 
   BUTTON_THREE = STATION  # STATION_KEEP_ALL=true
-}
+
+  BUTTON_FOUR  = REFUEL # REFUEL_NEEDED_ALL = true
