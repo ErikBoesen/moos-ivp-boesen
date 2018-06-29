@@ -102,6 +102,16 @@ Behavior = BHV_Waypoint
 
 Behavior = BHV_Timer
 {
+  name = fuel_countdown_timer
+  perpetual = true
+  condition = MODE==LOITERING
+  endflag = REFUEL_NEEDED = true
+  endflag = REFUEL_POINT_REACHED = false
+  duration = 300
+}
+
+Behavior = BHV_Timer
+{
   name = refuel_timer
   perpetual = true
   condition = REFUEL_POINT_REACHED = true
