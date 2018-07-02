@@ -16,11 +16,16 @@ using namespace std;
 //----------------------------------------------------------------
 // Procedure: showSynopsis
 
+void showUse() {
+  mag("stuff");
+}
+
 void showSynopsis()
 {
   blk("SYNOPSIS:                                                       ");
   blk("------------------------------------                            ");
   blk("  The pGenPath application is used for               ");
+  showUse();
   blk("                                                                ");
   blk("                                                                ");
   blk("                                                                ");

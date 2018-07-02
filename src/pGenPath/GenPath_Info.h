@@ -8,6 +8,7 @@
 #ifndef GenPath_INFO_HEADER
 #define GenPath_INFO_HEADER
 
+void showUse();
 void showSynopsis();
 void showHelpAndExit();
 void showExampleConfigAndExit();
