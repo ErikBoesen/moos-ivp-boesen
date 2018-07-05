@@ -11,7 +11,9 @@
 
 using namespace std;
 
-GenPath::GenPath() {}
+GenPath::GenPath() {
+    m_visit_radius = 5;
+}
 GenPath::~GenPath() {}
 
 bool GenPath::OnNewMail(MOOSMSG_LIST &NewMail)
@@ -72,7 +74,7 @@ bool GenPath::embark() {
     string return_string = "points=";
     if (new_points.size()) {
         return_string += new_points.get_spec();
-        m_Comms.Notify("SURVEY_POINTS", points_string);
+        m_Comms.Notify("SURVEY_POINTS", return_string);
     } else {
         m_Comms.Notify("SURVEY", "false");
         m_Comms.Notify("RETURN", "true");
@@ -102,7 +104,7 @@ bool GenPath::OnConnectToServer()
 double GenPath::distance(double x1, double y1, double x2, double y2) {
     return sqrt(pow(x2-x1, 2) + pow(y2-y1, 2));
 }
-bool GenPath::within_range(double x, y) {
+bool GenPath::within_range(double x, double y) {
     return distance(m_x, m_y, x, y) <= m_visit_radius;
 }
 
@@ -111,7 +113,7 @@ bool GenPath::Iterate()
     for (int i = 0; i < needed_points.size(); ++i) {
         double x = needed_points.get_vx(i);
         double y = needed_points.get_vy(i);
-        if (within_range(m_x, m_y, x, y))
+        if (within_range(x, y))
             needed_points.delete_vertex(x, y);
     }
     return(true);

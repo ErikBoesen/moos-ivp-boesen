@@ -15,5 +15,6 @@ TARGET_LINK_LIBRARIES(pGenPath
    ${MOOS_LIBRARIES}
    mbutil
    m
+   geometry
    pthread)
 
