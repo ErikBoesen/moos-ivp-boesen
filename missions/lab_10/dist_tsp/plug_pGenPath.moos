@@ -1,0 +1,4 @@
+ProcessConfig = pGenPath
+{
+  visit_radius = 10
+}

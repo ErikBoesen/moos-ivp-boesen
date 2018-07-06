@@ -5,12 +5,12 @@ ServerPort = $(VPORT)
 Community  = $(VNAME)
 
 #include plug_origin_warp.moos
-  
+
 //------------------------------------------------------------
 Processconfig = ANTLER
 {
   MSBetweenLaunches = 200
-   
+
   Run = MOOSDB             @ NewConsole = false
   Run = uSimMarine         @ NewConsole = false
   Run = pShare             @ NewConsole = false
@@ -22,8 +22,9 @@ Processconfig = ANTLER
   Run = pHostInfo          @ NewConsole = false
   Run = uFldNodeBroker     @ NewConsole = false
   Run = pMarineViewer      @ NewConsole = false
+  Run = pGenPath           @ NewConsole = false
 }
-  
+
 //--------------------------------------------------------
 ProcessConfig = pMarineViewer
 {
@@ -51,8 +52,8 @@ ProcessConfig = pMarineViewer
   ACTION = STATION_ALL = false
   ACTION = STATION_ALL = true
 
-  BUTTON_ONE   = DEPLOY  # DEPLOY=true 
-  BUTTON_ONE   = MOOS_MANUAL_OVERRIDE=false 
+  BUTTON_ONE   = DEPLOY  # DEPLOY=true
+  BUTTON_ONE   = MOOS_MANUAL_OVERRIDE=false
   BUTTON_ONE   = RETURN=false
   BUTTON_TWO   = RETURN  # RETURN=true
   BUTTON_THREE = STATION:T  # STATION=true
@@ -68,3 +69,4 @@ ProcessConfig = pMarineViewer
 #include plug_pLogger.moos
 #include plug_pNodeReporter.moos
 #include plug_uProcessWatch.moos
+#include plug_pGenPath.moos
