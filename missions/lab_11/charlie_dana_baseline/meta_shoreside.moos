@@ -7,7 +7,7 @@ ServerPort = $(SPORT)
 Community  = $(SNAME)
 
 #include plug_origin_warp.moos
-  
+
 //--------------------------------------------------------
 Processconfig = ANTLER
 {
@@ -21,6 +21,7 @@ Processconfig = ANTLER
   Run = pShare          @ NewConsole = false
   Run = pHostInfo       @ NewConsole = false
   Run = uFldShoreBroker @ NewConsole = false
+  Run = uFldNodeComms   @ NewConsole = false
 }
 
 #include plug_pShare.moos
@@ -42,8 +43,8 @@ ProcessConfig = uFldShoreBroker
   AppTick       = 1
   CommsTick     = 1
 
-  // Note: [QBRIDGE = FOO]  is shorthand for                    
-  //       [BRIDGE = src=FOO_$V,  alias=FOO] and                
+  // Note: [QBRIDGE = FOO]  is shorthand for
+  //       [BRIDGE = src=FOO_$V,  alias=FOO] and
   //       [BRIDGE = src=FOO_ALL, alias=FOO]
 
   QBRIDGE  = DEPLOY, RETURN, STATION_KEEP, NODE_REPORT, NODE_MESSAGE
@@ -51,6 +52,18 @@ ProcessConfig = uFldShoreBroker
 
   BRIDGE   = src=UP_LOITER_$N, alias=UP_LOITER
   BRIDGE   = src=HELM_MAP_CLEAR, alias=HELM_MAP_CLEAR
+}
+
+ProcessConfig = uFldNodeComms
+{
+  AppTick   = 2
+  CommsTick = 2
+
+  comms_range       = 120
+  min_msg_interval  = 15
+  max_msg_length    = 1000
+
+  view_node_rpt_pulses = true
 }
 
 //--------------------------------------------------
@@ -82,14 +95,14 @@ ProcessConfig = pLogger
 {
   AppTick       = 10
   CommsTick     = 10
-  
+
   File          = LOG_SHORESIDE
   PATH          = ./
   AsyncLog      = true
   FileTimeStamp = true
 
   // Log it all!!!!!
-  WildCardLogging = true 
+  WildCardLogging = true
 }
 
 
@@ -107,7 +120,7 @@ ProcessConfig = pMarineViewer
   vehicles_name_viewable = names
 
   circle_viewable_all = false
-  
+
   appcast_viewable = true
   appcast_color_scheme = indigo
 
@@ -115,8 +128,8 @@ ProcessConfig = pMarineViewer
   SCOPE = DEPLOY_ALL
 
 
-  BUTTON_ONE   = DEPLOY  # DEPLOY_ALL=true 
-  BUTTON_ONE   = MOOS_MANUAL_OVERRIDE_ALL=false 
+  BUTTON_ONE   = DEPLOY  # DEPLOY_ALL=true
+  BUTTON_ONE   = MOOS_MANUAL_OVERRIDE_ALL=false
   BUTTON_ONE   = RETURN_ALL=false
   BUTTON_ONE   = STATION_KEEP_ALL=false
 
@@ -134,7 +147,7 @@ ProcessConfig = uProcessWatch
   CommsTick = 1
 
   ALLOW_RETRACTIONS = true
-  
+
   WATCH_ALL = true      // default is true
 
   NOWATCH = uXMS*
