@@ -6,12 +6,12 @@ Simulator  = true
 Community  = $(VNAME)
 
 #include plug_origin_warp.moos
-  
+
 //------------------------------------------------------------
-Processconfig = ANTLER
+ProcessConfig = ANTLER
 {
   MSBetweenLaunches = 100
-   
+
   Run = MOOSDB           @ NewConsole = false
   Run = uProcessWatch    @ NewConsole = false
   Run = pShare           @ NewConsole = false
@@ -22,6 +22,7 @@ Processconfig = ANTLER
   Run = pHelmIvP         @ NewConsole = false
   Run = pHostInfo        @ NewConsole = false
   Run = uFldNodeBroker   @ NewConsole = false
+  Run = uFldMessageHandler @ NewConsole = false
 }
 
 #include plug_uFldNodeBroker.moos
@@ -33,4 +34,3 @@ Processconfig = ANTLER
 #include plug_pLogger.moos
 #include plug_pNodeReporter.moos
 #include plug_uProcessWatch.moos
-
