@@ -2,10 +2,10 @@
 
 initialize   DEPLOY = false
 initialize   RETURN = false
-	
+
 //----------------------------------------------
 Behavior = BHV_Waypoint
-{ 
+{
   name      = waypt_survey
   pwt       = 100
   condition = RETURN = false
@@ -48,7 +48,7 @@ Behavior=BHV_Waypoint
   endflag    = RETURN = false
   endflag    = DEPLOY = false
   endflag    = MISSION = complete
-	
+
            speed = 2.0
   capture_radius = 2.0
      slip_radius = 8.0
@@ -69,6 +69,11 @@ Behavior=BHV_ConstantSpeed
      speed = 0.5
 		 duration = 10
 		 duration_reset = CONST_SPD_RESET=true
-	
+
 }
 
+Behavior=BHV_Pulse
+{
+  name = pulse
+  pwt = 100
+}
