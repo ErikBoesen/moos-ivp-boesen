@@ -1,7 +1,7 @@
 //--------------------------------------------------
-// uFldHazardMgr configuration block from plugin
+// uFldHazardMgrX configuration block from plugin
 
-ProcessConfig = uFldHazardMgr
+ProcessConfig = uFldHazardMgrX
 {
   AppTick   = 2
   CommsTick = 2

@@ -6,12 +6,12 @@ Simulator  = true
 Community  = $(VNAME)
 
 #include plug_origin_warp.moos
-  
+
 //------------------------------------------------------------
 Processconfig = ANTLER
 {
   MSBetweenLaunches = 100
-   
+
   Run = MOOSDB             @ NewConsole = false
   Run = uSimMarine         @ NewConsole = false
   Run = pLogger            @ NewConsole = false
@@ -24,10 +24,10 @@ Processconfig = ANTLER
   Run = pHostInfo          @ NewConsole = false
   Run = uFldNodeBroker     @ NewConsole = false
   Run = uFldMessageHandler @ NewConsole = false
-  Run = uFldHazardMgr      @ NewConsole = false
+  Run = uFldHazardMgrX     @ NewConsole = false
   Run = uXMS               @ NewConsole = false
 }
-  
+
 //------------------------------------------------------------
 Processconfig = uXMS
 {
@@ -39,7 +39,7 @@ Processconfig = uXMS
 #include plug_pShare.moos
 #include plug_pHostInfo.moos
 #include plug_uFldMessageHandler.moos
-#include plug_uFldHazardMgr.moos
+#include plug_uFldHazardMgrX.moos
 #include plug_uSimMarine.moos
 #include plug_pHelmIvP.moos
 #include plug_pMarinePID.moos

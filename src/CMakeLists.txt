@@ -21,6 +21,7 @@ ADD_SUBDIRECTORY(pPrimeFactors)
 #ADD_SUBDIRECTORY(pFoobar)
 ADD_SUBDIRECTORY(pOdometry)
 ADD_SUBDIRECTORY(pGenPath)
+ADD_SUBDIRECTORY(uFldHazardMgrX)
 
 ##############################################################################
 #                           END of CMakeLists.txt
