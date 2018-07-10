@@ -26,7 +26,7 @@ BHV_Pulse::BHV_Pulse(IvPDomain domain) :
   m_domain = subDomain(m_domain, "course,speed");
 
   // Add any variables this behavior needs to subscribe for
-  addInfoVars("NAV_X, NAV_Y");
+  addInfoVars("NAV_X, NAV_Y", "WPT_INDEX");
 }
 
 //---------------------------------------------------------------
@@ -39,7 +39,7 @@ bool BHV_Pulse::setParam(string param, string val)
 
   // Get the numerical value of the param argument for convenience once
   double double_val = atof(val.c_str());
-  
+
   if((param == "foo") && isNumber(val)) {
     // Set local member variables here
     return(true);
