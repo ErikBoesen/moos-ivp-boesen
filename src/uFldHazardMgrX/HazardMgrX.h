@@ -27,6 +27,7 @@
 #include "MOOS/libMOOS/Thirdparty/AppCasting/AppCastingMOOSApp.h"
 #include "XYHazardSet.h"
 #include "XYPolygon.h"
+using namespace std;
 
 class HazardMgr : public AppCastingMOOSApp
 {
@@ -34,13 +35,13 @@ class HazardMgr : public AppCastingMOOSApp
    HazardMgr();
    ~HazardMgr() {}
 
- protected: // Standard MOOSApp functions to overload  
+ protected: // Standard MOOSApp functions to overload
    bool OnNewMail(MOOSMSG_LIST &NewMail);
    bool Iterate();
    bool OnConnectToServer();
    bool OnStartUp();
 
- protected: // Standard AppCastingMOOSApp function to overload 
+ protected: // Standard AppCastingMOOSApp function to overload
    bool buildReport();
 
  protected: // Registration, Configuration, Mail handling utils
@@ -52,11 +53,11 @@ class HazardMgr : public AppCastingMOOSApp
    void handleMailReportRequest();
    void handleMailMissionParams(std::string);
 
- protected: 
+ protected:
    void postSensorConfigRequest();
    void postSensorInfoRequest();
    void postHazardSetReport();
-   
+
  private: // Configuration variables
    double      m_swath_width_desired;
    double      m_pd_desired;
@@ -79,11 +80,15 @@ class HazardMgr : public AppCastingMOOSApp
 
    XYHazardSet m_hazard_set;
    XYPolygon   m_search_region;
-   
+
    double      m_transit_path_width;
+
+   int m_hazards_send_index;
+   bool sendMuyPoints();
+   bool handleMailIncomingPoints(string str);
 };
 
-#endif 
+#endif
 
 
 

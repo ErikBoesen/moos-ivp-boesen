@@ -90,6 +90,9 @@ bool HazardMgr::OnNewMail(MOOSMSG_LIST &NewMail)
     else if(key == "UHZ_MISSION_PARAMS")
       handleMailMissionParams(sval);
 
+    else if(key == "FOUND_POINTS")
+      handleMailIncomingPoints(sval);
+
     else
       reportRunWarning("Unhandled Mail: " + key);
   }
@@ -114,6 +117,8 @@ bool HazardMgr::Iterate()
 {
   AppCastingMOOSApp::Iterate();
 
+  sendMuyPoints();
+
   if(!m_sensor_config_requested)
     postSensorConfigRequest();
 
@@ -121,6 +126,24 @@ bool HazardMgr::Iterate()
     postSensorInfoRequest();
 
   AppCastingMOOSApp::PostReport();
+  return(true);
+}
+
+bool HazardMgr::sendMuyPoints() {
+  string skip = "type,color,shape,width,hr,aspect,aspect_range";
+  string message_prefix = "src_node=" + m_host_community + ",dest_node=all,var_name=FOUND_POINTS,string_val=";
+
+  if (m_hazards_send_index > m_hazard_set.size() - 1) m_hazards_send_index = 0;
+  XYHazard haz = m_hazard_set.getHazard(m_hazards_send_index);
+  Notify("NODE_MESSAGE_LOCAL", message_prefix + "\"" + haz.getSpec(skip) + "\"");
+  m_hazards_send_index++;
+  return(true);
+}
+
+bool HazardMgr::handleMailIncomingPoints(string str) {
+  XYHazard haz = string2Hazard(str);
+  if (m_hazard_set.findHazard(haz.getLabel()) == -1 && haz.getLabel() != "")
+    m_hazard_set.addHazard(haz);
   return(true);
 }
 
@@ -370,15 +393,3 @@ bool HazardMgr::buildReport()
 
   return(true);
 }
-
-
-
-
-
-
-
-
-
-
-
-
