@@ -23,7 +23,7 @@
 
 #include <iterator>
 #include "MBUtils.h"
-#include "HazardMgr.h"
+#include "HazardMgrX.h"
 #include "XYFormatUtilsHazard.h"
 #include "XYFormatUtilsPoly.h"
 #include "ACTable.h"
@@ -39,7 +39,7 @@ HazardMgr::HazardMgr()
   m_swath_width_desired = 25;
   m_pd_desired          = 0.9;
 
-  // State Variables 
+  // State Variables
   m_sensor_config_requested = false;
   m_sensor_config_set   = false;
   m_swath_width_granted = 0;
@@ -64,7 +64,7 @@ bool HazardMgr::OnNewMail(MOOSMSG_LIST &NewMail)
   for(p=NewMail.begin(); p!=NewMail.end(); p++) {
     CMOOSMsg &msg = *p;
     string key   = msg.GetKey();
-    string sval  = msg.GetString(); 
+    string sval  = msg.GetString();
 
 #if 0 // Keep these around just for template
     string comm  = msg.GetCommunity();
@@ -74,26 +74,26 @@ bool HazardMgr::OnNewMail(MOOSMSG_LIST &NewMail)
     bool   mdbl  = msg.IsDouble();
     bool   mstr  = msg.IsString();
 #endif
-    
-    if(key == "UHZ_CONFIG_ACK") 
+
+    if(key == "UHZ_CONFIG_ACK")
       handleMailSensorConfigAck(sval);
 
-    else if(key == "UHZ_OPTIONS_SUMMARY") 
+    else if(key == "UHZ_OPTIONS_SUMMARY")
       handleMailSensorOptionsSummary(sval);
 
-    else if(key == "UHZ_DETECTION_REPORT") 
+    else if(key == "UHZ_DETECTION_REPORT")
       handleMailDetectionReport(sval);
 
-    else if(key == "HAZARDSET_REQUEST") 
+    else if(key == "HAZARDSET_REQUEST")
       handleMailReportRequest();
 
-    else if(key == "UHZ_MISSION_PARAMS") 
+    else if(key == "UHZ_MISSION_PARAMS")
       handleMailMissionParams(sval);
 
-    else 
+    else
       reportRunWarning("Unhandled Mail: " + key);
   }
-	
+
    return(true);
 }
 
@@ -168,12 +168,12 @@ bool HazardMgr::OnStartUp()
     if(!handled)
       reportUnhandledConfigWarning(orig);
   }
-  
+
   m_hazard_set.setSource(m_host_community);
   m_hazard_set.setName(m_report_name);
   m_hazard_set.setRegion(m_search_region);
-  
-  registerVariables();	
+
+  registerVariables();
   return(true);
 }
 
@@ -196,7 +196,7 @@ void HazardMgr::registerVariables()
 void HazardMgr::postSensorConfigRequest()
 {
   string request = "vname=" + m_host_community;
-  
+
   request += ",width=" + doubleToStringX(m_swath_width_desired,2);
   request += ",pd="    + doubleToStringX(m_pd_desired,2);
 
@@ -223,7 +223,7 @@ bool HazardMgr::handleMailSensorConfigAck(string str)
 {
   // Expected ack parameters:
   string vname, width, pd, pfa, pclass;
-  
+
   // Parse and handle ack message components
   bool   valid_msg = true;
   string original_msg = str;
@@ -245,18 +245,18 @@ bool HazardMgr::handleMailSensorConfigAck(string str)
     else if(param == "pclass")
       pclass = value;
     else
-      valid_msg = false;       
+      valid_msg = false;
 
   }
 
 
   if((vname=="")||(width=="")||(pd=="")||(pfa=="")||(pclass==""))
     valid_msg = false;
-  
+
   if(!valid_msg)
     reportRunWarning("Unhandled Sensor Config Ack:" + original_msg);
 
-  
+
   if(valid_msg) {
     m_sensor_config_set = true;
     m_sensor_config_acks++;
@@ -270,7 +270,7 @@ bool HazardMgr::handleMailSensorConfigAck(string str)
 //---------------------------------------------------------
 // Procedure: handleMailDetectionReport
 //      Note: The detection report should look something like:
-//            UHZ_DETECTION_REPORT = vname=betty,x=51,y=11.3,label=12 
+//            UHZ_DETECTION_REPORT = vname=betty,x=51,y=11.3,label=12
 
 bool HazardMgr::handleMailDetectionReport(string str)
 {
@@ -280,7 +280,7 @@ bool HazardMgr::handleMailDetectionReport(string str)
   new_hazard.setType("hazard");
 
   string hazlabel = new_hazard.getLabel();
-  
+
   if(hazlabel == "") {
     reportRunWarning("Detection report received for hazard w/out label");
     return(false);
@@ -316,19 +316,19 @@ void HazardMgr::handleMailReportRequest()
   m_hazard_set.findMinXPath(20);
   //unsigned int count    = m_hazard_set.findMinXPath(20);
   string summary_report = m_hazard_set.getSpec("final_report");
-  
+
   Notify("HAZARDSET_REPORT", summary_report);
 }
 
 
 //---------------------------------------------------------
 // Procedure: handleMailMissionParams
-//   Example: UHZ_MISSION_PARAMS = penalty_missed_hazard=100,               
-//                       penalty_nonopt_hazard=55,                
-//                       penalty_false_alarm=35,                  
-//                       penalty_max_time_over=200,               
-//                       penalty_max_time_rate=0.45,              
-//                       transit_path_width=25,                           
+//   Example: UHZ_MISSION_PARAMS = penalty_missed_hazard=100,
+//                       penalty_nonopt_hazard=55,
+//                       penalty_false_alarm=35,
+//                       penalty_max_time_over=200,
+//                       penalty_max_time_rate=0.45,
+//                       transit_path_width=25,
 //                       search_region = pts={-150,-75:-150,-50:40,-50:40,-75}
 
 
@@ -347,7 +347,7 @@ void HazardMgr::handleMailMissionParams(string str)
 //------------------------------------------------------------
 // Procedure: buildReport()
 
-bool HazardMgr::buildReport() 
+bool HazardMgr::buildReport()
 {
   m_msgs << "Config Requested:"                                  << endl;
   m_msgs << "    swath_width_desired: " << m_swath_width_desired << endl;
@@ -362,7 +362,7 @@ bool HazardMgr::buildReport()
   m_msgs << "--------------------------------------------" << endl << endl;
 
   m_msgs << "               sensor requests: " << m_sensor_report_reqs << endl;
-  m_msgs << "             detection reports: " << m_detection_reports  << endl << endl; 
+  m_msgs << "             detection reports: " << m_detection_reports  << endl << endl;
 
   m_msgs << "   Hazardset Reports Requested: " << m_summary_reports << endl;
   m_msgs << "      Hazardset Reports Posted: " << m_summary_reports << endl;
