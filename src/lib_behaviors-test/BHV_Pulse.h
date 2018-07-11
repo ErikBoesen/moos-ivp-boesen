@@ -15,7 +15,7 @@ class BHV_Pulse : public IvPBehavior {
 public:
   BHV_Pulse(IvPDomain);
   ~BHV_Pulse() {};
-  
+
   bool         setParam(std::string, std::string);
   void         onSetParamComplete();
   void         onCompleteState();
@@ -27,8 +27,14 @@ public:
   IvPFunction* onRunState();
 
 protected: // Local Utility functions
+  bool poll();
 
 protected: // Configuration parameters
+  double m_pulse_radius;
+  double m_pulse_duration;
+  int m_waypoint_index;
+  bool m_waiting;
+  int m_end_time;
 
 protected: // State variables
 };
@@ -36,7 +42,7 @@ protected: // State variables
 #define IVP_EXPORT_FUNCTION
 
 extern "C" {
-  IVP_EXPORT_FUNCTION IvPBehavior * createBehavior(std::string name, IvPDomain domain) 
+  IVP_EXPORT_FUNCTION IvPBehavior * createBehavior(std::string name, IvPDomain domain)
   {return new BHV_Pulse(domain);}
 }
 #endif
