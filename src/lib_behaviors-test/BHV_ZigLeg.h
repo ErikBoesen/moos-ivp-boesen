@@ -1,20 +1,20 @@
 /************************************************************/
 /*    NAME: Erik Boesen                                              */
 /*    ORGN: MIT                                             */
-/*    FILE: BHV_Pulse.h                                      */
+/*    FILE: BHV_ZigLeg.h                                      */
 /*    DATE:                                                 */
 /************************************************************/
 
-#ifndef Pulse_HEADER
-#define Pulse_HEADER
+#ifndef ZigLeg_HEADER
+#define ZigLeg_HEADER
 
 #include <string>
 #include "IvPBehavior.h"
 
-class BHV_Pulse : public IvPBehavior {
+class BHV_ZigLeg : public IvPBehavior {
 public:
-  BHV_Pulse(IvPDomain);
-  ~BHV_Pulse() {};
+  BHV_ZigLeg(IvPDomain);
+  ~BHV_ZigLeg() {};
 
   bool         setParam(std::string, std::string);
   void         onSetParamComplete();
@@ -43,6 +43,6 @@ protected: // State variables
 
 extern "C" {
   IVP_EXPORT_FUNCTION IvPBehavior * createBehavior(std::string name, IvPDomain domain)
-  {return new BHV_Pulse(domain);}
+  {return new BHV_ZigLeg(domain);}
 }
 #endif
