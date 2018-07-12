@@ -7,6 +7,7 @@
 
 #include <iterator>
 #include <cstdlib>
+#include <ZAIC_PEAK.h>
 #include "MBUtils.h"
 #include "BuildUtils.h"
 #include "BHV_ZigLeg.h"
@@ -29,12 +30,16 @@ BHV_ZigLeg::BHV_ZigLeg(IvPDomain domain) :
   // Add any variables this behavior needs to subscribe for
   addInfoVars("NAV_X, NAV_Y");
   addInfoVars("WPT_INDEX", "no_warning");
+  addInfoVars("DESIRED_HEADING", "no_warning");
 
-  m_pulse_radius = 10;
+  /*m_pulse_radius = 10;
   m_pulse_duration = 50;
-  m_waypoint_index = 0;
   m_waiting = false;
-  m_end_time = 0;
+  m_end_time = 0;*/
+  m_waypoint_index = 0;
+
+  m_zig_duration = 10;
+  m_zig_angle = 45;
 }
 
 //---------------------------------------------------------------
@@ -48,12 +53,12 @@ bool BHV_ZigLeg::setParam(string param, string val)
   // Get the numerical value of the param argument for convenience once
   double double_val = atof(val.c_str());
 
-  if((param == "pulse_radius") && isNumber(val)) {
-      m_pulse_radius = double_val;
+  if((param == "zig_duration") && isNumber(val)) {
+      m_zig_duration = double_val;
       return(true);
   }
-  else if (param == "pulse_duration") {
-      m_pulse_duration = double_val;
+  else if (param == "zig_angle") {
+      m_zig_angle = double_val;
       return(true);
   }
 
@@ -131,42 +136,41 @@ IvPFunction* BHV_ZigLeg::onRunState()
   bool waypoint_valid;
   int current_waypoint_index = (int)getBufferDoubleVal("WPT_INDEX", waypoint_valid);
 
-  // Check if the waypoint has changed since last time
-  if (waypoint_valid && current_waypoint_index != m_waypoint_index) {
-      m_waypoint_index = current_waypoint_index;
-      m_waiting = true;
-      m_end_time = getBufferCurrTime() + 5;
+  if (current_waypoint_index != m_waypoint_index) {
+    m_waypoint_index = current_waypoint_index;
+
+    m_zig_start_time = getBufferCurrTime() + 5;
+    m_zig_end_time = m_zig_start_time + m_zig_duration;
+
+    m_zig_effective_angle = m_zig_angle + getBufferDoubleVal("DESIRED_HEADING", waypoint_valid);
   }
 
-  poll();
+  if (getBufferCurrTime() >= m_zig_start_time && getBufferCurrTime() <= m_zig_end_time) {
+    ipf = getMotionFunction();
+    if(ipf == 0) postWMessage("Problem Creating the IvP Function");
+  } else {
+    //m_zig_effective_angle = 0;
+    ipf = 0;
+  }
 
   // Part N: Prior to returning the IvP function, apply the priority wt
   // Actual weight applied may be some value different than the configured
   // m_priority_wt, depending on the behavior author's insite.
+
   if(ipf)
     ipf->setPWT(m_priority_wt);
 
   return(ipf);
 }
 
-// TODO: Nonsensical procedure name
-bool BHV_ZigLeg::poll() {
-    int curr_time;
-    if (m_waiting && (curr_time = getBufferCurrTime()) >= m_end_time) {
-        XYRangePulse pulse;
-        m_waiting = false;
-        bool position_ok = true;
-        if (position_ok) pulse.set_x(getBufferDoubleVal("NAV_X", position_ok));
-        if (position_ok) pulse.set_y(getBufferDoubleVal("NAV_Y", position_ok));
-        pulse.set_label("bhv_pulse");
-        pulse.set_rad(m_pulse_radius);
-        pulse.set_duration(m_pulse_duration);
-        pulse.set_time(curr_time);
-        pulse.set_color("edge", "yellow");
-        pulse.set_color("fill", "yellow");
-
-        string spec = pulse.get_spec();
-        postMessage("VIEW_RANGE_PULSE", spec);
-
-    }
+IvPFunction *BHV_ZigLeg::getMotionFunction() {
+    ZAIC_PEAK zig(m_domain, "course");
+    zig.setSummit(m_zig_effective_angle);
+    zig.setPeakWidth(0);
+    zig.setBaseWidth(180.0);
+    zig.setSummitDelta(0);
+    zig.setValueWrap(true);
+    if (!zig.stateOK()) return(0);
+    IvPFunction *f = zig.extractIvPFunction();
+    return f;
 }

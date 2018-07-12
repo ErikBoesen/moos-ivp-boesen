@@ -27,15 +27,16 @@ public:
   IvPFunction* onRunState();
 
 protected: // Local Utility functions
-  bool poll();
+  IvPFunction* getMotionFunction();
 
 protected: // Configuration parameters
-  double m_pulse_radius;
-  double m_pulse_duration;
   int m_waypoint_index;
-  bool m_waiting;
-  int m_end_time;
 
+  double m_zig_start_time;
+  double m_zig_end_time;
+  double m_zig_duration;
+  double m_zig_angle;
+  double m_zig_effective_angle;
 protected: // State variables
 };
 
