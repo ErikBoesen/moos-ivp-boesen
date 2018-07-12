@@ -72,8 +72,8 @@ Behavior=BHV_ConstantSpeed
 
 }
 
-Behavior=BHV_Pulse
+Behavior = BHV_ZigLeg
 {
-  name = pulse
+  name = zig
   pwt = 100
 }
