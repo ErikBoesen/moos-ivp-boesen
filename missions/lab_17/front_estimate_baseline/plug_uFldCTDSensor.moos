@@ -6,21 +6,15 @@ ProcessConfig = uFldCTDSensor
   AppTick   = 3
   CommsTick = 3
 
-   // Configuring Artificial Noise                               
-  xmin  = 0       
-  xmax  = 500       
-  ymin  = -400       
-  ymax  =  0  
-     
-  offset = -100
-  angle  = -4
-  amplitude = 5
-  period = 297
-  wavelength = 212
-  alpha = 350
-  beta = 43
-  temperature_north = 22
-  temperature_south = 28
-  sigma = 0.01
+   // Configuring Artificial Noise
+   offset = -90              // y_0
+   angle  = 5                // front angle theta
+   amplitude = 20            // spatial amplitude a
+   period = 200              // temporal period T
+   wavelength = 200          // spatial wavelength lambda
+   alpha = 400               // spatial 1/e length scale alpha
+   beta = 20                 // length scale of frontal gradient beta
+   temperature_north = 20    // temperature North of front
+   temperature_south = 25    // temperature South of front
+   sigma = 0.01              // standard deviation of Gaussian sensor noise
 }
-
